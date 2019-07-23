@@ -1,0 +1,5 @@
+.DS_Store
+.idea
+README.md
+mysql_credentials.js
+node_modules
