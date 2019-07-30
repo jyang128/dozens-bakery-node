@@ -31,7 +31,7 @@ class App extends React.Component {
     }
   }
   getProducts() {
-    fetch('/api/products.js') // we are already on the node express server, so it assumes to use the server that the request originally came from!
+    fetch('/api/products.php')
       .then(res => res.json())
       .then(res => this.setState({ products: res }))
       .catch(err => console.error(err.message));
@@ -97,7 +97,7 @@ class App extends React.Component {
       specialInstr,
       cart: JSON.stringify(this.state.cart)
     };
-    fetch('/api/orders.js', {
+    fetch('/api/orders.php', {
       method: 'POST',
       body: JSON.stringify(orderDetails),
       headers: { 'Content-Type': 'application/json' }
@@ -157,7 +157,7 @@ class App extends React.Component {
                 } />
                 <Route path="/about-us" component={About} />
                 <Route path="/confirmation" component={Confirmation}/>
-                <Route path="/order/:orderId" component={OrderSummary} />
+                <Route path="/order" component={OrderSummary} />
                 <Route component={PageNotFound} />
               </Switch>
             </div>
