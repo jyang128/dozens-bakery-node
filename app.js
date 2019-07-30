@@ -9,15 +9,18 @@ const db = mysql.createConnection(creds);
 
 db.connect(err => {
   if (err) throw err;
-  console.info('Connected to database');
+  console.log('Connected to database');
 });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(express.static(path.join(__dirname, '/server/public')));
 
 // routes here
+app.get('/products', function(req, res){
+    // send the data back to the front end
+    console.log('sup')
+})
 
 app.use(function (err, req, res, next) {
   if (err) {
@@ -28,5 +31,5 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(port, function () {
-  console.info(`server is listening on port ${port}`);
+  console.log(`server is listening at http://localhost:${port}`);
 });
