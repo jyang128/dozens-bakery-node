@@ -31,9 +31,11 @@ class App extends React.Component {
     }
   }
   getProducts() {
-    fetch('/api/products.php')
+    fetch('/api/products')
       .then(res => res.json())
-      .then(res => this.setState({ products: res }))
+      .then(res => {
+        this.setState({ products: res });
+      })
       .catch(err => console.error(err.message));
   }
   updateCart(product, quantity) {
