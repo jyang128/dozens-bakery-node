@@ -16,17 +16,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/server/public')));
 
-app.get('/api/products', function(request, response){
+app.get('/api/products', function(req, res){
   db.connect( function(){
 
     const query = "SELECT * from `products`";
     
     db.query( query, function( error, data ){
       if(error) {
-        response.send({ success: false, error });
+        res.send({ success: false, error });
       } else { 
         const output = data;
-        response.send( output );
+        res.send( output );
+      }
+    });
+  });
+});
+
+app.get('/api/products', function(req, res){
+  db.connect( function(){
+    const productId = req.id;
+    if(productId === undefined || isNaN(productId)){
+      response.send({success: false, error: 'number required'});
+      return;
+    }
+
+    const query = "SELECT * FROM `products` WHERE id=" + productId;
+
+    db.query(query, function(error, data){
+      if(!error){
+        res.send( data );
+      } else {
+        res.send({success: false, error});
       }
     });
   });
