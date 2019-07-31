@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
-const creds = require('./server/public/api/mysql_credentials.js');
+const creds = require('./mysql_credentials.js');
 
 const app = express();
 const port = 3001;
@@ -16,16 +16,30 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/server/public')));
 
-// routes here
-app.get('/products', function(req, res){
-    // send the data back to the front end
-    console.log('sup')
-})
+app.get('/api/products', function(request, response){
+  db.connect( function(){
+
+    const query = "SELECT * from `products`";
+    
+    db.query( query, function( error, data ){
+      if(error) {
+        response.send({ success: false, error });
+      } else { 
+        const output = data;
+        response.send( output );
+      }
+    });
+  });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'server/public/index.html'));
+});
 
 app.use(function (err, req, res, next) {
   if (err) {
     console.error(err);
-    res.status(err.status || 500).json('Something broke!');
+    res.status(err.status || 500).json('Something went wrong!!');
   }
   next();
 });

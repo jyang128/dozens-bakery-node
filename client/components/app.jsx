@@ -31,9 +31,11 @@ class App extends React.Component {
     }
   }
   getProducts() {
-    fetch('/api/products.js') // we are already on the node express server, so it assumes to use the server that the request originally came from!
+    fetch('/api/products')
       .then(res => res.json())
-      .then(res => this.setState({ products: res }))
+      .then(res => {
+        this.setState({ products: res });
+      })
       .catch(err => console.error(err.message));
   }
   updateCart(product, quantity) {

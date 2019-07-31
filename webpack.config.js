@@ -36,10 +36,7 @@ module.exports = {
     watchContentBase: true,
     stats: 'minimal',
     proxy: {
-      '/api': {
-        changeOrigin: true,
-        target: 'http://localhost/dozens-bakery-node/server/public'
-      }
+      '/api': 'http://localhost:3001'
     }
   }
 };
