@@ -17,7 +17,7 @@ app.get('/api/products', function(req, res){
     if(!req.query.id){
       query = "SELECT * from `products`";
     } else if(isNaN(req.query.id)) {
-      res.send({success: false, error: 'number required'});
+      res.send({success: false, error: 'Number required for product ID'});
       return;
     } else {
       query = "SELECT * FROM `products` WHERE id=" + req.query.id;
@@ -27,7 +27,7 @@ app.get('/api/products', function(req, res){
       if(error){
         res.send({success: false, error});
       } else if (data.length === 0){
-        res.send({success: false, error: 'no results'});
+        res.send({success: false, error: 'No product results'});
       } else {
         res.send( data );
       }
@@ -40,7 +40,7 @@ app.get('/api/orders', function(req, res){
     const orderId = req.query.orderId;
 
     if(orderId === undefined || isNaN(orderId)){
-      res.send({success: false, error: 'number required'});
+      res.send({success: false, error: 'Number required for order ID'});
       return;
     }
 
@@ -50,7 +50,7 @@ app.get('/api/orders', function(req, res){
       if(error){
         res.send({success: false, error});
       } else if (data.length === 0){
-        res.send({success: false, error: 'no orders found'});
+        res.send({success: false, error: 'No orders found'});
       } else {
         res.send( data );
       }
@@ -59,11 +59,11 @@ app.get('/api/orders', function(req, res){
 });
 
 app.post('/api/orders', function(req, res){
-  const { name, phoneNum, specialInstr, cartItems } = req.body;
-  if( name === undefined || phoneNum === undefined || specialInstr === undefined || cartItems === undefined){
+  const { name, phoneNum, specialInstr, cart } = req.body;
+  if( name === undefined || phoneNum === undefined){
     res.send({ 
       success: false, 
-      error: 'invalid name, phone number, instructions, or cart'
+      error: 'Invalid name or phone number'
     });
     return;
   }
@@ -84,7 +84,7 @@ app.post('/api/orders', function(req, res){
     const query = `INSERT INTO \`orders\` (customer_name, phone_number, special_instr, cart_items)
       VALUES (?, ?, ?, ?)`;
 
-    db.query(query, [name, phoneNum, specialInstr, cartItems], function(error, data){
+    db.query(query, [name, phoneNum, specialInstr, cart], function(error, data){
       if(!error){
         res.send({ orderId: data.insertId });
       } else {

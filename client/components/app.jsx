@@ -106,6 +106,10 @@ class App extends React.Component {
     })
       .then(res => res.json())
       .then(res => {
+        if (res.success === false) {
+          console.error(res.error);
+          return;
+        }
         localStorage.cart = JSON.stringify([]);
         this.setState({ cart: [] }, () => {
           this.props.history.push({
