@@ -40,6 +40,29 @@ app.get('/api/products', function(req, res){
   });
 });
 
+app.get('/api/orders', function(req, res){
+  db.connect( function(){
+    const orderId = req.query.orderId;
+
+    if(orderId === undefined || isNaN(orderId)){
+      res.send({success: false, error: 'number required'});
+      return;
+    }
+
+    const query = "SELECT * FROM `orders` WHERE id=" + orderId;
+
+    db.query(query, function(error, data){
+      if(error){
+        res.send({success: false, error});
+      } else if (data.length === 0){
+        res.send({success: false, error: 'no orders found'});
+      } else {
+        res.send( data );
+      }
+    })
+  });
+});
+
 app.post('/api/orders', function(req, res){
   const name = req.body.name || '';
   const phoneNum = req.body.phoneNum || '';
@@ -63,7 +86,7 @@ app.post('/api/orders', function(req, res){
 
     db.query(query, function(error, data){
       if(!error){
-        res.send({ newId: data.insertId });
+        res.send({ orderId: data.insertId });
       } else {
         res.send({success: false, error});
       }
