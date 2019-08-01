@@ -9,17 +9,17 @@ body {
 .btn-info {
     color: #fff;
     font-size: 1.1rem;
-    background-color: #d88f97;
-    border-color: #d88f97;
+    background-color: #ffbc65;
+    border-color: #ffbc65;
     border-radius: 0;
 }
 .btn-info:hover {
-    background-color: #c48289;
-    border-color: #c48289;
+    background-color: #e9a64d;
+    border-color: #e9a64d;
 }
 .btn-info:not(:disabled):not(.disabled):active {
-    background-color: #c48289;
-    border-color: #c48289;
+    background-color: #e9a64d;
+    border-color: #e9a64d;
 }
 .gray {
     color: gray;
@@ -33,20 +33,20 @@ body {
 }
 .header h1 a {
     font-family: 'Kaushan Script', cursive;
-    color: #dc9f9f;
+    color: #ffbc65;
     margin-left: 15px;
 }
 .header h5 a {
-    color: #dc9f9f;
+    color: #ffbc65;
     margin: 0 15px;
     transition: color .5s ease-in-out;
 }
 .header h5 a:hover {
-    color: #dc9f9f;
-    border-bottom: 2px solid #dc9f9f;
+    color: #edab54;
+    border-bottom: 2px solid #eba140;
 }
 .total.updated {
-    color: #A5435C;
+    color: #e38d1e;
 }
 .footer {
     position: relative;
@@ -63,16 +63,16 @@ body {
     line-height: 1.7em;
 }
 .add-to-order {
-    color: #A5435C;
+    color: #e38d1e;
     transition: all 0.5s ease-out;
 }
 .add-to-order:hover {
     cursor: pointer;
-    border-bottom: 1px solid #d88f97;
+    border-bottom: 1px solid #ffbc65;
 }
 .feedback {
     visibility: hidden;
-    color: #ffbc65;
+    color: #e38d1e;
     font-size: 1.25em;
     margin-left: 10px;
     margin-top: 10px;
@@ -88,7 +88,7 @@ body {
 }
 .removal-prompt.show {
     display: block;
-    color: #A5435C;
+    color: #e9a54d;
 }
 .removal-icons:hover {
     cursor: pointer;
@@ -102,7 +102,7 @@ body {
     cursor: pointer;
 }
 .product-name a:hover {
-    color: #A5435C;
+    color: #edab54;
     text-decoration: none;
 }
 .cart-add-prompt {
@@ -112,10 +112,10 @@ body {
     display: block;
 }
 .cart-add-prompt a {
-    color: #A5435C;
+    color: #ffbc65;
 }
 .cart-add-prompt a:hover {
-    color: #d88f97;
+    color: #edab54;
     text-decoration: none;
 }
 /* product qty inputs */
@@ -143,8 +143,8 @@ input, textarea {
 }
 textarea:focus,
 .checkout input[type="text"]:focus {
-    border: 1px solid #A5435C;
-    box-shadow: inset 0 0 0 1px #A5435C;
+    border: 1px solid #ffbc65;
+    box-shadow: inset 0 0 0 1px #ffbc65;
 }
 /* confirmation page */
 .thank-you-container {
@@ -180,7 +180,7 @@ textarea:focus,
 }
 /* reviews section */
 .red-underline {
-    border-bottom: 4px solid #A5435C;
+    border-bottom: 4px solid #ffbc65;
 }
 .reviews h5 {
     min-height: 20vh;
@@ -213,7 +213,7 @@ textarea:focus,
 }
 .about-inner h1 {
     font-family: 'Kaushan Script', cursive;
-    color: #A5435C;
+    color: #ffbc65;
 }
 .about-inner h5 {
     line-height: 1.5em;
@@ -288,7 +288,7 @@ textarea:focus,
 }
 .page-not-found-inner a {
     text-decoration: none;
-    color: #A5435C;
+    color: #ffbc65;
 }
 /* disclaimer(s) - banner and note on checkout */
 .disclaimer {
@@ -296,7 +296,7 @@ textarea:focus,
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(165, 67, 91, 0.9);
+    background-color: rgba(255, 188, 101, 0.9);
 }
 .disclaimer > div {
     color: white;
@@ -312,6 +312,6 @@ textarea:focus,
     right: -25px;
 }
 .reminder {
-    color: #c48289;
+    color: #ffbc65;
     font-size: 1.1em;
 }
