@@ -7,11 +7,6 @@ const app = express();
 const port = 3001;
 const db = mysql.createConnection(creds);
 
-db.connect(err => {
-  if (err) throw err;
-  console.log('Connected to database');
-});
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/server/public')));
@@ -59,15 +54,19 @@ app.get('/api/orders', function(req, res){
       } else {
         res.send( data );
       }
-    })
+    });
   });
 });
 
 app.post('/api/orders', function(req, res){
-  const name = req.body.name || '';
-  const phoneNum = req.body.phoneNum || '';
-  const specialInstr = req.body.specialInstr || '';
-  const cartItems = req.body.cart || '';
+  const { name, phoneNum, specialInstr, cartItems } = req.body;
+  if( name === undefined || phoneNum === undefined || specialInstr === undefined || cartItems === undefined){
+    res.send({ 
+      success: false, 
+      error: 'invalid name, phone number, instructions, or cart'
+    });
+    return;
+  }
 
   if( name.length < 2){
     res.send({success: false, error: 'Invalid name'});
@@ -81,19 +80,19 @@ app.post('/api/orders', function(req, res){
   }
 
   db.connect( function(){
+    
+    const query = `INSERT INTO \`orders\` (customer_name, phone_number, special_instr, cart_items)
+      VALUES (?, ?, ?, ?)`;
 
-    const query = `INSERT INTO \`orders\` (customer_name, phone_number, special_instr, cart_items) VALUES ('${name}', '${phoneNum}', '${specialInstr}', '${cartItems}')`;
-
-    db.query(query, function(error, data){
+    db.query(query, [name, phoneNum, specialInstr, cartItems], function(error, data){
       if(!error){
         res.send({ orderId: data.insertId });
       } else {
         res.send({success: false, error});
       }
-    })
-
-  })
-})
+    });
+  });
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'server/public/index.html'));
