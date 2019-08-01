@@ -31,9 +31,11 @@ class App extends React.Component {
     }
   }
   getProducts() {
-    fetch('/api/products.php')
+    fetch('/api/products')
       .then(res => res.json())
-      .then(res => this.setState({ products: res }))
+      .then(res => {
+        this.setState({ products: res });
+      })
       .catch(err => console.error(err.message));
   }
   updateCart(product, quantity) {
@@ -97,7 +99,7 @@ class App extends React.Component {
       specialInstr,
       cart: JSON.stringify(this.state.cart)
     };
-    fetch('/api/orders.php', {
+    fetch('/api/orders', {
       method: 'POST',
       body: JSON.stringify(orderDetails),
       headers: { 'Content-Type': 'application/json' }
@@ -157,7 +159,7 @@ class App extends React.Component {
                 } />
                 <Route path="/about-us" component={About} />
                 <Route path="/confirmation" component={Confirmation}/>
-                <Route path="/order/:orderId" component={OrderSummary} />
+                <Route path="/order" component={OrderSummary} />
                 <Route component={PageNotFound} />
               </Switch>
             </div>
