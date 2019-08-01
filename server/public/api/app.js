@@ -18,39 +18,59 @@ app.use(express.static(path.join(__dirname, '/server/public')));
 
 app.get('/api/products', function(req, res){
   db.connect( function(){
-
-    const query = "SELECT * from `products`";
+    let query = '';
+    if(!req.query.id){
+      query = "SELECT * from `products`";
+    } else if(isNaN(req.query.id)) {
+      res.send({success: false, error: 'number required'});
+      return;
+    } else {
+      query = "SELECT * FROM `products` WHERE id=" + req.query.id;
+    }
     
-    db.query( query, function( error, data ){
-      if(error) {
-        res.send({ success: false, error });
-      } else { 
-        const output = data;
-        res.send( output );
+    db.query(query, function(error, data){
+      if(error){
+        res.send({success: false, error});
+      } else if (data.length === 0){
+        res.send({success: false, error: 'no results'});
+      } else {
+        res.send( data );
       }
     });
   });
 });
 
-app.get('/api/products', function(req, res){
-  db.connect( function(){
-    const productId = req.id;
-    if(productId === undefined || isNaN(productId)){
-      response.send({success: false, error: 'number required'});
-      return;
-    }
+app.post('/api/orders', function(req, res){
+  const name = req.body.name || '';
+  const phoneNum = req.body.phoneNum || '';
+  const specialInstr = req.body.specialInstr || '';
+  const cartItems = req.body.cart || '';
 
-    const query = "SELECT * FROM `products` WHERE id=" + productId;
+  if( name.length < 2){
+    res.send({success: false, error: 'Invalid name'});
+    return;
+  }
+
+  let phoneNumRegex = /^1?\(?([0-9]{3})\)?[-.]?([0-9]{3})[-.]?([0-9]{4})$/gm;
+  if (!phoneNumRegex.test(phoneNum)) {
+    res.send({success: false, error: 'Not a valid phone number format.'});
+    return;
+  }
+
+  db.connect( function(){
+
+    const query = `INSERT INTO \`orders\` (customer_name, phone_number, special_instr, cart_items) VALUES ('${name}', '${phoneNum}', '${specialInstr}', '${cartItems}')`;
 
     db.query(query, function(error, data){
       if(!error){
-        res.send( data );
+        res.send({ newId: data.insertId });
       } else {
         res.send({success: false, error});
       }
-    });
-  });
-});
+    })
+
+  })
+})
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'server/public/index.html'));
