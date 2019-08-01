@@ -99,7 +99,7 @@ class App extends React.Component {
       specialInstr,
       cart: JSON.stringify(this.state.cart)
     };
-    fetch('/api/orders.php', {
+    fetch('/api/orders', {
       method: 'POST',
       body: JSON.stringify(orderDetails),
       headers: { 'Content-Type': 'application/json' }
