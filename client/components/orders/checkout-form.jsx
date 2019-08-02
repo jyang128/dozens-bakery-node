@@ -15,12 +15,12 @@ export default class CheckoutForm extends React.Component {
   }
   placeOrder() {
     if (!this.state.name || !this.state.phoneNum) {
-      this.setState({ errorMessage: 'Please provide name and phone number!' });
+      this.setState({ errorMessage: 'Please provide valid name and phone number!' });
       return;
     }
 
-    if (this.state.name.length > 40) {
-      this.setState({ errorMessage: 'Name can be 40 characters max.' });
+    if (this.state.name.length < 2 || this.state.name.length > 40) {
+      this.setState({ errorMessage: 'Name must be between 2 to 40 characters.' });
       return;
     }
 
