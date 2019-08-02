@@ -60,6 +60,8 @@ app.get('/api/orders', function(req, res){
 
 app.post('/api/orders', function(req, res){
   const { name, phoneNum, specialInstr, cart } = req.body;
+  const dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
   if( name === undefined || phoneNum === undefined){
     res.send({ 
       success: false, 
@@ -81,10 +83,10 @@ app.post('/api/orders', function(req, res){
 
   db.connect( function(){
     
-    const query = `INSERT INTO \`orders\` (customer_name, phone_number, special_instr, cart_items)
-      VALUES (?, ?, ?, ?)`;
+    const query = `INSERT INTO \`orders\` (customer_name, phone_number, special_instr, cart_items, timestamp)
+      VALUES (?, ?, ?, ?, ?)`;
 
-    db.query(query, [name, phoneNum, specialInstr, cart], function(error, data){
+    db.query(query, [name, phoneNum, specialInstr, cart, dateTime], function(error, data){
       if(!error){
         res.send({ orderId: data.insertId });
       } else {
