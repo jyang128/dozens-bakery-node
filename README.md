@@ -2,10 +2,10 @@
 
 ## Overview
 
-To practice Node.js, I rebuilt the backend of my [other project](https://github.com/jyang128/dozens-bakery) originally built with the LAMP stack.
+To practice Node.js, I rebuilt the backend of my [initial project](https://github.com/jyang128/dozens-bakery) originally built with the LAMP stack.
 
 Live Site:
-https://dozens-node.jessicakyang.com/
+https://dozens-node.jessicakyang.com
  
 An online storefront for a bakery that sells treats by the dozen.  Visitors can browse the site, add and remove treats from their cart, place an order, and view their confirmation/order summary.
 
