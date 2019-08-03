@@ -97,7 +97,7 @@ app.post('/api/orders', function(req, res){
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'server/public/index.html'));
+  res.sendStatus(404);
 });
 
 app.use(function (err, req, res, next) {
