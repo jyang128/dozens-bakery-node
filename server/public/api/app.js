@@ -4,7 +4,7 @@ const path = require('path');
 const creds = require('./mysql_credentials.js');
 
 const app = express();
-const port = 3001;
+const PORT = process.env.PORT;
 const db = mysql.createConnection(creds);
 
 app.use(express.urlencoded({ extended: true }));
@@ -108,6 +108,6 @@ app.use(function (err, req, res, next) {
   next();
 });
 
-app.listen(port, function () {
-  console.log(`server is listening at http://localhost:${port}`);
+app.listen(PORT, function () {
+  console.log(`server is listening at http://localhost:${PORT}`);
 });
