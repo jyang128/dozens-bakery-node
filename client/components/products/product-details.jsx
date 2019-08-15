@@ -9,6 +9,7 @@ export default class ProductDetails extends React.Component {
     this.state = {
       product: {},
       quantityInput: 1,
+      showPromptClass: '',
       loading: true
     };
     this.addToCartHandler = this.addToCartHandler.bind(this);
@@ -27,12 +28,14 @@ export default class ProductDetails extends React.Component {
         this.setState({ loading: false });
       });
   }
-  addToCartHandler(event) {
-    this.props.addToCartHandler(this.state.product, parseInt(this.state.quantityInput, 10), event);
+  addToCartHandler() {
+    this.props.addToCartHandler(this.state.product, parseInt(this.state.quantityInput, 10));
     this.setState({
       quantityInput: 1
     });
-    this.showFeedback();
+    this.setState({
+      showPromptClass: 'show'
+    });
   }
   handleQtyBlur() {
     let quantity = this.state.quantityInput;
@@ -56,13 +59,11 @@ export default class ProductDetails extends React.Component {
       quantityInput: quantity
     });
   }
-  showFeedback() {
-    document.querySelector('.cart-add-prompt').className += ' show';
-  }
   render() {
     const { handleQtyChange, handleQtyBlur, addToCartHandler } = this;
     const { image, name, price, reviews, longDescription } = this.state.product;
-    const { quantityInput, loading } = this.state;
+    const { quantityInput, showPromptClass, loading } = this.state;
+    const { checkMarkClass } = this.props;
 
     const shownPrice = (price / 100);
     let shownReviews = null;
@@ -98,9 +99,9 @@ export default class ProductDetails extends React.Component {
             <button className="btn btn-info" onClick={addToCartHandler}>
               Add to Order
             </button>
-            <span className="feedback"><i className="fas fa-check"></i></span>
+            <span className={`feedback ${checkMarkClass}`}><i className="fas fa-check"></i></span>
           </div>
-          <div className="cart-add-prompt">
+          <div className={`cart-add-prompt ${showPromptClass}`}>
             <Link to="/cart-summary">
               <i className="fas fa-cookie"></i> Go to Order<br/>
             </Link>

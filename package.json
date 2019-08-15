@@ -4,7 +4,7 @@
   "description": "A React.js + Node.js with Express.js shopping cart app.",
   "scripts": {
     "dev:client": "webpack-dev-server",
-    "dev:server": "nodemon server/public/api/app.js",
+    "dev:server": "nodemon server/app.js",
     "build": "webpack --mode=production",
     "start": "npm-run-all --parallel dev:*"
   },
