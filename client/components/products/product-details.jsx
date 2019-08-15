@@ -66,15 +66,6 @@ export default class ProductDetails extends React.Component {
     const { checkMarkClass } = this.props;
 
     const shownPrice = (price / 100);
-    let shownReviews = null;
-    if (reviews) {
-      shownReviews = <Reviews reviews={reviews}/>;
-    }
-
-    let loader = null;
-    if (loading) {
-      loader = <div className="loading-page"></div>;
-    }
 
     return (
       <React.Fragment>
@@ -110,8 +101,8 @@ export default class ProductDetails extends React.Component {
             </Link>
           </div>
         </div>
-        {shownReviews}
-        {loader}
+        {reviews && <Reviews reviews={reviews}/>}
+        {loading && <div className="loading-page"></div>}
       </React.Fragment>
     );
   }
