@@ -4,7 +4,7 @@ const path = require('path');
 const creds = require('./mysql_credentials.js');
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 const db = mysql.createConnection(creds);
 
 app.use(express.urlencoded({ extended: true }));
