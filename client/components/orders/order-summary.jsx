@@ -27,8 +27,10 @@ export default class OrderSummary extends React.Component {
       });
   }
   render() {
+    const { order, loading } = this.state;
+
     let orderTotal = 0;
-    const orders = this.state.order.map((item, index) => {
+    const orders = order.map((item, index) => {
       let price = ((item.price / 100) * item.quantity);
       orderTotal += price;
       return <React.Fragment key={index}>
@@ -47,11 +49,6 @@ export default class OrderSummary extends React.Component {
       </React.Fragment>;
     });
 
-    let loader = null;
-    if (this.state.loading) {
-      loader = (<div className="loading-page"></div>);
-    }
-
     const searchArray = this.props.location.search.split('=');
     const orderId = searchArray[1];
 
@@ -65,7 +62,7 @@ export default class OrderSummary extends React.Component {
         <div className="col-12 col-lg-8 offset-lg-2 d-flex flex-wrap">
           {orders}
         </div>
-        {loader}
+        {loading && <div className="loading-page"></div>}
       </React.Fragment>
     );
   }
