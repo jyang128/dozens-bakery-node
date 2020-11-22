@@ -5,56 +5,53 @@ const creds = require('./mysql_credentials.js');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const db = mysql.createConnection(creds);
+
+const pool = mysql.createPool(creds);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/server/public')));
 
 app.get('/api/products', function (req, res) {
-  db.connect(function () {
-    let query = '';
-    if (!req.query.id) {
-      query = 'SELECT * from `products`';
-    } else if (isNaN(req.query.id)) {
-      res.send({ success: false, error: 'Number required for product ID' });
-      return;
-    } else {
-      query = 'SELECT * FROM `products` WHERE id=' + req.query.id;
-    }
+  let query = '';
+  if (!req.query.id) {
+    query = 'SELECT * from `products`';
+  } else if (isNaN(req.query.id)) {
+    res.send({ success: false, error: 'Number required for product ID' });
+    return;
+  } else {
+    query = 'SELECT * FROM `products` WHERE id=' + req.query.id;
+  }
 
-    db.query(query, function (error, data) {
-      if (error) {
-        res.send({ success: false, error });
-      } else if (data.length === 0) {
-        res.send({ success: false, error: 'No product results' });
-      } else {
-        res.send(data);
-      }
-    });
+  pool.query(query, function (error, data) {
+    if (error) {
+      res.send({ success: false, error });
+    } else if (data.length === 0) {
+      res.send({ success: false, error: 'No product results' });
+    } else {
+      res.send(data);
+    }
   });
 });
 
 app.get('/api/orders', function (req, res) {
-  db.connect(function () {
-    const orderId = req.query.orderId;
+  const orderId = req.query.orderId;
 
-    if (orderId === undefined || isNaN(orderId)) {
-      res.send({ success: false, error: 'Number required for order ID' });
-      return;
+  if (orderId === undefined || isNaN(orderId)) {
+    res.send({ success: false, error: 'Number required for order ID' });
+    return;
+  }
+
+  const query = 'SELECT * FROM `orders` WHERE id=' + orderId;
+
+  pool.query(query, function (error, data) {
+    if (error) {
+      res.send({ success: false, error });
+    } else if (data.length === 0) {
+      res.send({ success: false, error: 'No orders found' });
+    } else {
+      res.send(data);
     }
-
-    const query = 'SELECT * FROM `orders` WHERE id=' + orderId;
-
-    db.query(query, function (error, data) {
-      if (error) {
-        res.send({ success: false, error });
-      } else if (data.length === 0) {
-        res.send({ success: false, error: 'No orders found' });
-      } else {
-        res.send(data);
-      }
-    });
   });
 });
 
@@ -81,18 +78,15 @@ app.post('/api/orders', function (req, res) {
     return;
   }
 
-  db.connect(function () {
+  const query = `INSERT INTO \`orders\` (customer_name, phone_number, special_instr, cart_items, timestamp)
+    VALUES (?, ?, ?, ?, ?)`;
 
-    const query = `INSERT INTO \`orders\` (customer_name, phone_number, special_instr, cart_items, timestamp)
-      VALUES (?, ?, ?, ?, ?)`;
-
-    db.query(query, [name, phoneNum, specialInstr, cart, dateTime], function (error, data) {
-      if (!error) {
-        res.send({ orderId: data.insertId });
-      } else {
-        res.send({ success: false, error });
-      }
-    });
+  pool.query(query, [name, phoneNum, specialInstr, cart, dateTime], function (error, data) {
+    if (!error) {
+      res.send({ orderId: data.insertId });
+    } else {
+      res.send({ success: false, error });
+    }
   });
 });
 
